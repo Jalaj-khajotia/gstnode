@@ -6,23 +6,27 @@ to = function (promise) { //global function that will help use handle promise re
 }
 
 var years = {
-    10: '2009-10',
-    11: '2010-11',
-    12: '2011-12',
-    13: '2012-13',
-    14: '2013-14',
-    15: '2014-15',
-    16: '2015-16',
-    17: '2016-17',
-    18: '2017-18',
-    19: '2018-19'
+    1: '2016-17',
+    2: '2017-18',
+    3: '2018-19',
+    4: '2019-20',
+    5: '2020-21',
+    6: '2021-22',
+    7: '2022-23'
 }
 
 var quarters = {
-    1: 'q1',
-    2: 'q2',
-    3: 'q3',
-    4: 'q4'
+    1: 'Q1',
+    2: 'Q2',
+    3: 'Q3',
+    4: 'Q4'
+}
+
+var gstFormType = {
+    1: 'GSTR 1',
+    2: 'GSTR 2',
+    3: 'GSTR 3',
+    4: 'GSTR 3B'
 }
 
 var months = {
@@ -37,7 +41,8 @@ var months = {
     9: 'Sep',
     10: 'Oct',
     11: 'Nov',
-    12: 'Dec'
+    12: 'Dec',
+    13: 'Annual'
 }
 
 var type = {
@@ -46,9 +51,14 @@ var type = {
 }
 
 var gstStatus = {
-    1:'Completed',
-    2:'Pending',
-    3:'Error'
+    1: 'Challan Pending',
+    2: 'Wrong GSTIN',
+    3: 'Input Difference',
+    4: 'Previous Return Pending',
+    5: 'Error on Website',
+    6: 'Late Fee',
+    7: 'Interest',
+    8: 'Any Other'
 }
 
 fy = function (fy) {
@@ -72,7 +82,8 @@ clientData = function () {
         quarters: quarters,
         months: months,
         gstType: type,
-        gstStatus:gstStatus
+        gstStatus: gstStatus,
+        formType: gstFormType
     }
 }
 

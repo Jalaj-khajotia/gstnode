@@ -4,10 +4,11 @@ const create = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     let err, clientgstObj;
     let user = req.user;
-
     let client_gst = req.body;
-    console.log(client_gst);
+    client_gst.companyid = req.user.companyid;
 
+    if (!req.body.clientInfoId)
+        if (err) return ReE(res, err, 422);
 
     [err, clientgstObj] = await to(ClientGST.create(client_gst));
     if (err) return ReE(res, err, 422);
@@ -27,19 +28,21 @@ module.exports.create = create;
 const getClientGSTStatus = async function (req, res) {
     console.log('in method post');
     res.setHeader('Content-Type', 'application/json');
-    let err, clientgstObj;
+    let err, clientgstObj, companyid;
 
-    let clientId = req.body.clientid;
-    console.log(req.body);
+    let clientId = req.body.id;
+    companyid = req.user.companyid;
+
 
     [err, clientgstObj] = await to(ClientGST.findAll({
         where: {
-            clientid: clientId
+            clientInfoId: clientId,
+            companyid: companyid
         }
     }));
     if (err) return ReE(res, err, 422);
-  
-    return ReS(res,clientgstObj);
+
+    return ReS(res, clientgstObj);
 }
 module.exports.getClientGSTStatus = getClientGSTStatus;
 
@@ -72,18 +75,22 @@ const get = async function (req, res) {
 module.exports.get = get;
 
 const update = async function (req, res) {
-    let err, client, data, returnData;
+    let err, client, data, returnData, companyid;
     data = req.body;
+    companyid = req.user.companyid;
 
     [err, returnData] = await to(ClientGST.update({
+        "gstFormType": data.gstFormType,
         "year": data.year,
         "period": data.period,
-        "gsttypeid": data.gsttypeid,
         "gststatus": data.gststatus,
+        "receiptDate": data.receiptDate,
+        "fillingDate": data.fillingDate,
         "remark": data.remark
     }, {
         where: {
-            id: data.id
+            id: data.id,
+            companyid: companyid
         }
     }));
     if (err) {
@@ -91,22 +98,25 @@ const update = async function (req, res) {
     }
     console.log(returnData);
     return ReS(res, {
-        client: returnData
+        gstData: returnData
     });
 }
 
 module.exports.update = update;
 
 const remove = async function (req, res) {
-    let user, err, data;
-    data = req.body;
+    let user, err, id, companyid;
+    id = req.params.id;
+    companyid = req.user.companyid;
+
 
     [err, user] = await to(ClientGST.destroy({
         where: {
-            id: data.id
+            id: id,
+            companyid: companyid
         }
     }));
-    if (err) return ReE(res, 'error occured trying to delete the client');
+    if (err) return ReE(res, 'error occured trying to delete the GST Record');
 
     return ReS(res, {
         message: 'Deleted GST Record'

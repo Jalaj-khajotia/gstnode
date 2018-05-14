@@ -1,16 +1,15 @@
 const Client = require('../models').ClientInfo;
 var Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+
 const create = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     let err, client;
-
     let client_info = req.body;
-    console.log(client_info);
 
+    client_info.companyid = req.user.companyid;
     [err, client] = await to(Client.create(client_info));
     if (err) return ReE(res, err, 422);
-
 
     [err, client] = await to(client.save());
     if (err) return ReE(res, err, 422);
@@ -26,10 +25,13 @@ module.exports.create = create;
 
 const getAll = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    console.log('in get');
-    let clients, err;
-
-    [err, clients] = await to(Client.findAll());
+    let clients, err, companyid;
+    companyid = req.user.companyid;
+    [err, clients] = await to(Client.findAll({
+        where: {
+            companyid: companyid
+        }
+    }));
 
     return ReS(res, {
         clients: clients
@@ -61,81 +63,136 @@ const get = async function (req, res) {
 }
 module.exports.get = get;
 
-const searchByName = async function (req, res) {
+const searchByTradeName = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let clients, err, name;
-    name = req.params.name;
-    [err, clients] = await to(Client.findAll({
-        where: {
-            name: {
-                [Op.like]: '%' + name + '%'
-            }
-        }
-    }));
-    return ReS(res, {
-        clients: clients
-    });
-}
-module.exports.searchByName = searchByName;
+    let clients, err, key, companyid;
+    key = req.params.key;
+    companyid = req.user.companyid;
 
-const searchByClientId = async function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    let clients, err, name;
-    name = req.params.name;
     [err, clients] = await to(Client.findAll({
         where: {
-            clientid: {
-                [Op.like]: name + '%'
-            }
+            tradename: {
+                [Op.like]: '%' + key + '%'
+            },
+            companyid: companyid
         }
     }));
     return ReS(res, {
         clients: clients
     });
 }
-module.exports.searchByClientId = searchByClientId;
+module.exports.searchByTradeName = searchByTradeName;
 
-const searchByGstId = async function (req, res) {
+const searchByLegalName = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let clients, err, name;
-    name = req.params.name;
+    let clients, err, key, companyid;
+    companyid = req.user.companyid;
+
+    key = req.params.key;
     [err, clients] = await to(Client.findAll({
         where: {
-            gstid: {
-                [Op.like]: name + '%'
-            }
+            legalname: {
+                [Op.like]: '%'+key + '%'
+            },
+            companyid: companyid
         }
     }));
     return ReS(res, {
         clients: clients
     });
 }
-module.exports.searchByGstId = searchByGstId;
+module.exports.searchByLegalName = searchByLegalName;
+
+const searchByGSTIN = async function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    let clients, err, key, companyid;
+    companyid = req.user.companyid;
+
+    key = req.params.key;
+    [err, clients] = await to(Client.findAll({
+        where: {
+            gstin: {
+                [Op.like]: key + '%'
+            },
+            companyid: companyid
+        }
+    }));
+    return ReS(res, {
+        clients: clients
+    });
+}
+module.exports.searchByGSTIN = searchByGSTIN;
+
+const searchByCodeNo = async function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    let clients, err, key, companyid;
+    companyid = req.user.companyid;
+
+    key = req.params.key;
+    [err, clients] = await to(Client.findAll({
+        where: {
+            codeno: {
+                [Op.like]: key + '%'
+            },
+            companyid: companyid
+        }
+    }));
+    return ReS(res, {
+        clients: clients
+    });
+}
+module.exports.searchByCodeNo = searchByCodeNo;
+
+const searchByUserId = async function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    let clients, err, key, companyid;
+    companyid = req.user.companyid;
+
+    key = req.params.key;
+    [err, clients] = await to(Client.findAll({
+        where: {
+            userid: {
+                [Op.like]: key + '%'
+            },
+            companyid: companyid
+        }
+    }));
+    return ReS(res, {
+        clients: clients
+    });
+}
+module.exports.searchByUserId = searchByUserId;
 
 
 const update = async function (req, res) {
-    let err, client, data, returnData;
+    let err, client, data, returnData, companyid;
     data = req.body;
+    companyid = req.user.companyid;
 
     [err, returnData] = await to(Client.update({
-        "clientid": data.clientid,
-        "name": data.name,
-        "password": data.password,
-        "gstid": data.gstid,
-        "gstno": data.gstno,
-        "emailid": data.emailid,
-        "ewaybillid": data.ewaybillid,
-        "ewaypassword": data.ewaypassword,
-        "mobile": data.mobile
+        codeno: data.codeno,
+        tradename: data.tradename,
+        legalname: data.legalname,
+        address: data.address,
+        gstin: data.gstin,
+        regdate: data.regdate,
+        dealertype: data.dealertype,
+        userid: data.userid,
+        password: data.password,
+        mobile: data.mobile,
+        emailid: data.emailid,
+        ewayuserid: data.ewayuserid,
+        ewaypassword: data.ewaypassword,
+        cancellationdate: data.cancellationdate
     }, {
         where: {
-            id: data.id
+            id: data.id,
+            companyid: companyid
         }
     }));
     if (err) {
         return ReE(res, err);
     }
-    console.log(returnData);
     return ReS(res, {
         client: 1
     });
@@ -144,18 +201,28 @@ const update = async function (req, res) {
 module.exports.update = update;
 
 const remove = async function (req, res) {
-    let user, err, id;
-    id = req.params.clientid;
-    console.log(id);
-    [err, user] = await to(Client.destroy({
+    res.setHeader('Content-Type', 'application/json');
+
+    let err, id, companyid, usr;
+    id = req.params.id;
+    companyid = req.user.companyid;
+    [err, usr] = await to(Client.destroy({
         where: {
-            clientid: id
+            id: id,
+            companyid: companyid
         }
     }));
-    if (err) return ReE(res, 'error occured trying to delete the client');
 
-    return ReS(res, {
-        message: 'Deleted user'
-    }, 204);
+    if (err) {
+        return ReE(res, 'error occured trying to delete the client');
+    } else {
+        res.statusCode = 204;
+        return res.json({
+            "userdeleted": usr
+        });
+    }
+
+
+
 }
 module.exports.remove = remove;

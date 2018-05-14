@@ -20,30 +20,33 @@ router.get('/', function(req, res, next) {
   res.json({status:"success", message:"Parcel Pending API", data:{"version_number":"v1.0.0"}})
 });
 
+router.post('/client',passport.authenticate('jwt', {session:false}), ClientInfoController.create);                                                    // C
+router.get('/clients', passport.authenticate('jwt', {session:false}), ClientInfoController.getAll);        // R
+router.get('/client/:id', passport.authenticate('jwt', {session:false}), ClientInfoController.get);        // R
+router.put('/clients', passport.authenticate('jwt', {session:false}), ClientInfoController.update);     // U
+router.delete('/client/:id', passport.authenticate('jwt', {session:false}), ClientInfoController.remove);     // D
+router.get('/clients/gstdata', passport.authenticate('jwt', {session:false}), ClientInfoController.clientData);   
 
+//search api
+router.get('/clients/tname/:key', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByTradeName);        // R
+router.get('/clients/lname/:key', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByLegalName);        // R
+router.get('/clients/gstid/:key', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByGSTIN);        // R
+router.get('/clients/codeno/:key', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByCodeNo);        // R
+router.get('/clients/userid/:key', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByUserId);        // R
 
-router.post(    '/clients',         ClientInfoController.create);                                                    // C
-router.get(     '/clients',         passport.authenticate('jwt', {session:false}), ClientInfoController.getAll);        // R
-router.get(     '/client/:id',      passport.authenticate('jwt', {session:false}), ClientInfoController.get);        // R
-router.put(     '/clients',         passport.authenticate('jwt', {session:false}), ClientInfoController.update);     // U
-router.delete(  '/clients/:clientid',         passport.authenticate('jwt', {session:false}), ClientInfoController.remove);     // D
-router.get('/clients/gstdata',      passport.authenticate('jwt', {session:false}), ClientInfoController.clientData);   
-router.get('/clients/name/:name', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByName);        // R
-router.get('/clients/clientid/:name', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByClientId);        // R
-router.get('/clients/gstid/:name', passport.authenticate('jwt', {session:false}), ClientInfoController.searchByGstId);        // R
+// gst api
+router.post( '/clientgst', passport.authenticate('jwt', {session:false}), ClientGstController.create);                                                 // C
+router.post( '/fetchclientgst', passport.authenticate('jwt', {session:false}), ClientGstController.getClientGSTStatus);        // R
+router.put(  '/clientgst', passport.authenticate('jwt', {session:false}), ClientGstController.update);     // U
+router.delete('/clientgst/:id', passport.authenticate('jwt', {session:false}), ClientGstController.remove);     // D
 
-
-router.post( '/clientgst',       passport.authenticate('jwt', {session:false}), ClientGstController.create);                                                 // C
-router.post( '/fetchclientgst',  ClientGstController.getClientGSTStatus);        // R
-router.put(  '/clientgst',       passport.authenticate('jwt', {session:false}), ClientGstController.update);     // U
-router.delete('/clientgst',      passport.authenticate('jwt', {session:false}), ClientGstController.remove);     // D
-
-
-router.post(    '/users',           UserController.create);                                                    // C
+//user api
+router.post('/users',UserController.create);
+router.post('/users/login', UserController.login);
+router.get('/users/data', passport.authenticate('jwt', {session:false}), UserController.get); 
 // router.get(     '/users',           passport.authenticate('jwt', {session:false}), UserController.get);        // R
 // router.put(     '/users',           passport.authenticate('jwt', {session:false}), UserController.update);     // U
 // router.delete(  '/users',           passport.authenticate('jwt', {session:false}), UserController.remove);     // D
-router.post(    '/users/login',     UserController.login);
 
 router.post(    '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.create);                  // C
 router.get(     '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.getAll);                  // R

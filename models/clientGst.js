@@ -5,12 +5,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        clientid: DataTypes.INTEGER,
+        clientInfoId: DataTypes.INTEGER,
+        gstFormType: DataTypes.INTEGER,
         year: DataTypes.INTEGER,
         period: DataTypes.INTEGER,
-        gsttypeid: DataTypes.INTEGER,
         gststatus: DataTypes.INTEGER,
-        remark: DataTypes.STRING
+        receiptDate: DataTypes.DATEONLY,
+        fillingDate: DataTypes.DATEONLY,
+        remark: DataTypes.STRING,
+        companyid: DataTypes.INTEGER
     });
 
 

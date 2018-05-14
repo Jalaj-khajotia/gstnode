@@ -26,6 +26,8 @@ const createUser = async function(userInfo){
     unique_key = getUniqueKeyFromBody(userInfo);
     if(!unique_key) TE('An email or phone number was not entered.');
 
+    if(!userInfo.companyid) TE('companyid is not mentioned');    
+
     if(validator.isEmail(unique_key)){
         auth_info.method = 'email';
         userInfo.email = unique_key;
@@ -57,7 +59,6 @@ const authUser = async function(userInfo){//returns token
 
     if(!unique_key) TE('Please enter an email or phone number to login');
 
-
     if(!userInfo.password) TE('Please enter a password to login');
 
     let user;
@@ -65,7 +66,6 @@ const authUser = async function(userInfo){//returns token
         auth_info.method='email';
 
         [err, user] = await to(User.findOne({where:{email:unique_key}}));
-        console.log(err, user, unique_key);
         if(err) TE(err.message);
 
     }else if(validator.isMobilePhone(unique_key, 'any')){//checks if only phone number was sent
@@ -83,7 +83,7 @@ const authUser = async function(userInfo){//returns token
     [err, user] = await to(user.comparePassword(userInfo.password));
 
     if(err) TE(err.message);
-
+    user.password ="";
     return user;
 
 }
