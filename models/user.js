@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         email     : {type: DataTypes.STRING, allowNull: true, unique: true, validate: { isEmail: {msg: "Phone number invalid."} }},
         phone     : {type: DataTypes.STRING, allowNull: true, unique: true, validate: { len: {args: [7, 20], msg: "Phone number invalid, too short."}, isNumeric: { msg: "not a valid phone number."} }},
         password  : DataTypes.STRING,
-        companyid : DataTypes.INTEGER        
+        companyid : DataTypes.INTEGER,
+        isActive:  DataTypes.BOOLEAN   
     });
 
     // Model.associate = function(models){

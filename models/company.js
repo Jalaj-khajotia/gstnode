@@ -1,7 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('Company', {
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    isActive: DataTypes.BOOLEAN
   });
 
   // Model.associate = function(models){

@@ -50,6 +50,11 @@ var type = {
     2: 'Composite'
 }
 
+var roles = {
+    1: 'Admin',
+    2: 'User'
+}
+
 var gstStatus = {
     1: 'Challan Pending',
     2: 'Wrong GSTIN',
@@ -83,7 +88,8 @@ clientData = function () {
         months: months,
         gstType: type,
         gstStatus: gstStatus,
-        formType: gstFormType
+        formType: gstFormType,
+        roles: roles
     }
 }
 

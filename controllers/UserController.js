@@ -11,7 +11,7 @@ const create = async function (req, res) {
     } else if (!body.password) {
         return ReE(res, 'Please enter a password to register.');
     } else {
-        let err, user, company;
+        let err, user, company = [];
 
         [err, company] = await to(Company.findAll({
             where: {
@@ -45,28 +45,65 @@ const get = async function (req, res) {
 }
 module.exports.get = get;
 
+const getAll = async function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    // console.log('in user');
+    let user = req.user;
+    var err, users;
+
+    [err, users] = await to(User.findAll());
+
+    return ReS(res, {
+        users: users
+    });
+}
+module.exports.getAll = getAll;
+
 const update = async function (req, res) {
-    let err, user, data
+    let err, user, data, checkUser;
     user = req.user;
     data = req.body;
     user.set(data);
 
-    [err, user] = await to(user.save());
-    if (err) {
-        if (err.message == 'Validation error') err = 'The email address or phone number is already in use';
+    [err, checkUser] = await to(User.findAll({
+        where: {
+            email: data.email
+        }
+    }));
+    if (checkUser.length > 0 && checkUser[0].id != data.id) {
+        err = 'The email address or phone number is already in use';
         return ReE(res, err);
+    } else {
+        console.log(data.role);
+        [err, user] = await to(User.update({
+            "role": data.role,
+            "email": data.email,
+            "companyid": data.companyid
+        }, {
+            where: {
+                id: data.id
+            }
+        }));
+    }
+
+    if (err) {
+
     }
     return ReS(res, {
-        message: 'Updated User: ' + user.email
+        message: 'Updated User: ' + data.email
     });
 }
 module.exports.update = update;
 
 const remove = async function (req, res) {
-    let user, err;
-    user = req.user;
+    let id, err;
+    id = req.params.id;
 
-    [err, user] = await to(user.destroy());
+    [err, user] = await to(User.destroy({
+        where: {
+            id: id
+        }
+    }));
     if (err) return ReE(res, 'error occured trying to delete user');
 
     return ReS(res, {

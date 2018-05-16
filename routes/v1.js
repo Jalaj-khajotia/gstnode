@@ -40,16 +40,27 @@ router.post( '/fetchclientgst', passport.authenticate('jwt', {session:false}), C
 router.put(  '/clientgst', passport.authenticate('jwt', {session:false}), ClientGstController.update);     // U
 router.delete('/clientgst/:id', passport.authenticate('jwt', {session:false}), ClientGstController.remove);     // D
 
+//company api
+router.get( '/companies', passport.authenticate('jwt', {session:false}), CompanyController.getAll);                                                 // C
+router.post( '/company', passport.authenticate('jwt', {session:false}), CompanyController.create);        // R
+router.put(  '/company', passport.authenticate('jwt', {session:false}), CompanyController.update);     // U
+router.delete('/company/:id', passport.authenticate('jwt', {session:false}), CompanyController.remove);     // D
+
 //user api
 router.post('/users',UserController.create);
 router.post('/users/login', UserController.login);
+
+router.put('/user',passport.authenticate('jwt', {session:false}),UserController.update);
+router.get('/users', passport.authenticate('jwt', {session:false}), UserController.getAll); 
+router.delete('/user/:id',passport.authenticate('jwt', {session:false}),UserController.remove);
+
+//data
 router.get('/users/data', passport.authenticate('jwt', {session:false}), UserController.get); 
 // router.get(     '/users',           passport.authenticate('jwt', {session:false}), UserController.get);        // R
 // router.put(     '/users',           passport.authenticate('jwt', {session:false}), UserController.update);     // U
 // router.delete(  '/users',           passport.authenticate('jwt', {session:false}), UserController.remove);     // D
 
 router.post(    '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.create);                  // C
-router.get(     '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.getAll);                  // R
 
 // router.get(     '/companies/:company_id', passport.authenticate('jwt', {session:false}), custom.company, CompanyController.get);     // R
 // router.put(     '/companies/:company_id', passport.authenticate('jwt', {session:false}), custom.company, CompanyController.update);  // U
