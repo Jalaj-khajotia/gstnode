@@ -81,9 +81,9 @@ const authUser = async function(userInfo){//returns token
     if(!user) TE('Not registered');
 
     [err, user] = await to(user.comparePassword(userInfo.password));
-
     if(err) TE(err.message);
     user.password ="";
+    console.log('in auth service');
     return user;
 
 }

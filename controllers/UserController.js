@@ -22,8 +22,9 @@ const create = async function (req, res) {
             return ReE(res, 'Given company id is not created');
         } else {
             [err, user] = await to(authService.createUser(body));
-
+        
             if (err) return ReE(res, err, 422);
+            console.log(user);
             return ReS(res, {
                 message: 'Successfully created new user.',
                 user: user.toWeb(),
@@ -115,10 +116,21 @@ module.exports.remove = remove;
 
 const login = async function (req, res) {
     const body = req.body;
-    let err, user;
+    let err, user, company;
 
     [err, user] = await to(authService.authUser(req.body));
     if (err) return ReE(res, err, 422);
+
+
+    [err, company] = await to(Company.findAll({
+        where: {
+            id: user.companyid
+        }
+    }));
+
+    if (company && !company[0].isActive) {
+        return ReE(res, 'company is not active', 422);
+    }
 
     return ReS(res, {
         token: user.getJWT(),

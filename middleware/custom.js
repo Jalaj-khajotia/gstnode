@@ -4,6 +4,7 @@ let user = async function (req, res, next) {
     let client_id, err, user;
     console.log('in customjs');
     user = req.user;
+    
     //client_id = req.params.client_id;
 
     //[err, client] = await to(Client.findOne({where:{id:clientid}}));

@@ -26,6 +26,9 @@ module.exports.create = create;
 const getAll = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     let clients, err, companyid;
+
+    console.log('in client info');
+    console.log(req.user.id);
     companyid = req.user.companyid;
     [err, clients] = await to(Client.findAll({
         where: {
@@ -50,11 +53,14 @@ module.exports.clientData = clientinfo;
 
 const get = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let clients, err, id;
+    let clients, err, id, companyid;
+    companyid = req.user.companyid;
+
     id = req.params.id;
     [err, clients] = await to(Client.findAll({
         where: {
-            id: id
+            id: id,
+            companyid: companyid
         }
     }));
     return ReS(res, {
@@ -92,7 +98,7 @@ const searchByLegalName = async function (req, res) {
     [err, clients] = await to(Client.findAll({
         where: {
             legalname: {
-                [Op.like]: '%'+key + '%'
+                [Op.like]: '%' + key + '%'
             },
             companyid: companyid
         }
