@@ -86,6 +86,7 @@ const update = async function (req, res) {
         "gststatus": data.gststatus,
         "receiptDate": data.receiptDate,
         "fillingDate": data.fillingDate,
+        "gstpendingstatus":data.gstpendingstatus,
         "remark": data.remark
     }, {
         where: {
