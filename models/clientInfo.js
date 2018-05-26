@@ -3,13 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('ClientInfo', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     codeno: DataTypes.INTEGER,
     tradename: DataTypes.STRING,
     legalname: DataTypes.STRING,
     address: DataTypes.STRING,
-    gstin: DataTypes.INTEGER,
+    gstin: DataTypes.STRING,
     regdate: DataTypes.DATEONLY,
     dealertype: DataTypes.INTEGER,
     userid: DataTypes.INTEGER,
@@ -19,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     ewayuserid: DataTypes.STRING,
     ewaypassword: DataTypes.STRING,
     cancellationdate: DataTypes.DATEONLY,
+    remark: DataTypes.STRING,
     companyid: DataTypes.INTEGER
   });
 

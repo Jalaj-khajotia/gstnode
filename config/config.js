@@ -1,7 +1,8 @@
-require('dotenv').config();//instatiate environment variables
+require('dotenv').config({path:'dev.env'});//instatiate environment variables
 
 CONFIG = {} //Make this global to use all over the application
 
+console.log(process.env.APP);
 CONFIG.app          = process.env.APP   || 'dev';
 CONFIG.port         = process.env.PORT  || '80';
 

@@ -30,23 +30,23 @@ var gstFormType = {
 }
 
 var months = {
-    1: 'Jan',
-    2: 'Feb',
-    3: 'Mar',
-    4: 'Apr',
-    5: 'May',
-    6: 'Jun',
-    7: 'Jul',
-    8: 'Aug',
-    9: 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec',
+    1: 'Apr',
+    2: 'May',
+    3: 'Jun',
+    4: 'Jul',
+    5: 'Aug',
+    6: 'Sep',
+    7: 'Oct',
+    8: 'Nov',
+    9: 'Dec',
+    10: 'Jan',
+    11: 'Feb',
+    12: 'Mar',
     13: 'Annual'
 }
 
 var type = {
-    1: 'Primary',
+    1: 'Regular',
     2: 'Composite'
 }
 
@@ -64,6 +64,11 @@ var gstStatus = {
     6: 'Late Fee',
     7: 'Interest',
     8: 'Any Other'
+}
+var gstStatusTypes = {
+    1: 'Received',
+    2: 'Filed',
+    3: 'Pending'
 }
 
 fy = function (fy) {
@@ -88,6 +93,7 @@ clientData = function () {
         months: months,
         gstType: type,
         gstStatus: gstStatus,
+        gstStatusTypes: gstStatusTypes,
         formType: gstFormType,
         roles: roles
     }

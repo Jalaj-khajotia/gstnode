@@ -206,6 +206,32 @@ const update = async function (req, res) {
 
 module.exports.update = update;
 
+
+
+const updateClientRemarks = async function (req, res) {
+    let err, client, data, returnData, companyid;
+    data = req.body;
+    companyid = req.user.companyid;
+
+    [err, returnData] = await to(Client.update({
+        remark: data.remark
+    }, {
+        where: {
+            id: data.id,
+            companyid: companyid
+        }
+    }));
+    if (err) {
+        return ReE(res, err);
+    }
+    return ReS(res, {
+        client: 1
+    });
+}
+
+module.exports.updateClientRemarks = updateClientRemarks;
+
+
 const remove = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 

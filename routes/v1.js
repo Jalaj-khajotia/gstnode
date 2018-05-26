@@ -24,6 +24,7 @@ router.post('/client',passport.authenticate('jwt', {session:false}), ClientInfoC
 router.get('/clients', passport.authenticate('jwt', {session:false}), ClientInfoController.getAll);        // R
 router.get('/client/:id', passport.authenticate('jwt', {session:false}), ClientInfoController.get);        // R
 router.put('/clients', passport.authenticate('jwt', {session:false}), ClientInfoController.update);     // U
+router.put('/clients/remark', passport.authenticate('jwt', {session:false}), ClientInfoController.updateClientRemarks);     // U
 router.delete('/client/:id', passport.authenticate('jwt', {session:false}), ClientInfoController.remove);     // D
 router.get('/clients/gstdata', passport.authenticate('jwt', {session:false}), ClientInfoController.clientData);   
 
