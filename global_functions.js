@@ -19,7 +19,8 @@ var quarters = {
     1: 'Q1',
     2: 'Q2',
     3: 'Q3',
-    4: 'Q4'
+    4: 'Q4',
+    5: 'Annual'
 }
 
 var gstFormType = {
