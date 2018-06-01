@@ -32,26 +32,29 @@ const create = async function (req, res) {
 }
 module.exports.create = create;
 
-const getClientGSTStatus = async function (req, res) {
+const getClientGST = async function (req, res) {
     console.log('in method post');
     res.setHeader('Content-Type', 'application/json');
     let err, clientgstObj, companyid;
 
-    let clientId = req.body.id;
+    let clientId = req.body.id,
+        year = req.body.year;
+
     companyid = req.user.companyid;
 
 
     [err, clientgstObj] = await to(ClientGST.findAll({
         where: {
             clientInfoId: clientId,
-            companyid: companyid
+            companyid: companyid,
+            year: year
         }
     }));
     if (err) return ReE(res, err, 422);
 
     return ReS(res, clientgstObj);
 }
-module.exports.getClientGSTStatus = getClientGSTStatus;
+module.exports.getClientGST = getClientGST;
 
 const getClientGSTReport = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');

@@ -37,7 +37,7 @@ router.get('/clients/userid/:key', passport.authenticate('jwt', {session:false})
 
 // gst api
 router.post( '/clientgst', passport.authenticate('jwt', {session:false}), ClientGstController.create);                                                 // C
-router.post( '/fetchclientgst', passport.authenticate('jwt', {session:false}), ClientGstController.getClientGSTStatus);        // R
+router.post( '/fetchclientgst', passport.authenticate('jwt', {session:false}), ClientGstController.getClientGST);        // R
 router.put(  '/clientgst', passport.authenticate('jwt', {session:false}), ClientGstController.update);     // U
 router.delete('/clientgst/:id', passport.authenticate('jwt', {session:false}), ClientGstController.remove);     // D
 router.post( '/getgstreport', passport.authenticate('jwt', {session:false}), ClientGstController.getClientGSTReport);
