@@ -1,4 +1,11 @@
 const ClientGST = require('../models').ClientGst;
+var Sequelize = require('sequelize');
+const sequelize = new Sequelize(CONFIG.db_name, CONFIG.db_user, CONFIG.db_password, {
+    host: CONFIG.db_host,
+    dialect: CONFIG.db_dialect,
+    port: CONFIG.db_port,
+    operatorsAliases: false
+});
 
 const create = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
@@ -46,6 +53,26 @@ const getClientGSTStatus = async function (req, res) {
 }
 module.exports.getClientGSTStatus = getClientGSTStatus;
 
+const getClientGSTReport = async function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    let clients, err, gstParams;
+    gstParams = req.body;
+
+    sequelize.query('CALL GetGSTReport (:year, :gstformtype, :period)', {
+        replacements: {
+            year: gstParams.year,
+            gstformtype: gstParams.gstformtype,
+            period: gstParams.period
+        },
+        type: sequelize.QueryTypes.SELECT
+    }).then(projects => {
+        return ReS(res, {
+            report: projects
+        });
+    });
+}
+module.exports.getClientGSTReport = getClientGSTReport;
+
 const getAll = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     console.log('in get');
@@ -86,7 +113,7 @@ const update = async function (req, res) {
         "gststatus": data.gststatus,
         "receiptDate": data.receiptDate,
         "fillingDate": data.fillingDate,
-        "gstpendingstatus":data.gstpendingstatus,
+        "gstpendingstatus": data.gstpendingstatus,
         "remark": data.remark
     }, {
         where: {
