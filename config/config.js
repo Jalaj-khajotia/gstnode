@@ -1,4 +1,4 @@
-require('dotenv').config({path:'dev.env'});//instatiate environment variables
+require('dotenv').config({path:'prod.env'});//instatiate environment variables
 
 CONFIG = {} //Make this global to use all over the application
 
