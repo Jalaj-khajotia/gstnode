@@ -58,14 +58,16 @@ module.exports.getClientGST = getClientGST;
 
 const getClientGSTReport = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let clients, err, gstParams;
+    let clients, err, gstParams, companyid;
     gstParams = req.body;
+    companyid = req.user.companyid;;
 
-    sequelize.query('CALL GetGSTReport (:year, :gstformtype, :period)', {
+    sequelize.query('CALL GetGSTReport (:year, :gstformtype, :period, :companyid)', {
         replacements: {
             year: gstParams.year,
             gstformtype: gstParams.gstformtype,
-            period: gstParams.period
+            period: gstParams.period,
+            companyid: companyid
         },
         type: sequelize.QueryTypes.SELECT
     }).then(projects => {
