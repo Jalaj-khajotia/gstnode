@@ -33,7 +33,6 @@ const create = async function (req, res) {
 module.exports.create = create;
 
 const getClientGST = async function (req, res) {
-    console.log('in method post');
     res.setHeader('Content-Type', 'application/json');
     let err, clientgstObj, companyid;
 
@@ -80,7 +79,6 @@ module.exports.getClientGSTReport = getClientGSTReport;
 
 const getAll = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    console.log('in get');
     let clients, err;
 
     [err, clients] = await to(ClientGST.findAll());

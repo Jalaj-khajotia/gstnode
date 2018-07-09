@@ -28,7 +28,6 @@ const getAll = async function (req, res) {
     let clients, err, companyid;
 
     console.log('in client info');
-    console.log(req.user.id);
     companyid = req.user.companyid;
     [err, clients] = await to(Client.findAll({
         where: {

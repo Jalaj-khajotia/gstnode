@@ -6,14 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    codeno: DataTypes.INTEGER,
+    codeno: {
+      type: DataTypes.INTEGER,
+      unique: true
+    },
     tradename: DataTypes.STRING,
     legalname: DataTypes.STRING,
     address: DataTypes.STRING,
     gstin: DataTypes.STRING,
     regdate: DataTypes.DATEONLY,
     dealertype: DataTypes.INTEGER,
-    userid: DataTypes.INTEGER,
+    userid: DataTypes.STRING,
     password: DataTypes.STRING,
     mobile: DataTypes.INTEGER,
     emailid: DataTypes.STRING,

@@ -16,7 +16,6 @@ module.exports = function (passport) {
         if (err) return done(err, false);
         if (user) {
             console.log('in passport js ');
-            console.log(user.id);
             return done(null, user);
         } else {
             return done(null, false);

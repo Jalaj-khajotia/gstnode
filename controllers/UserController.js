@@ -37,7 +37,6 @@ module.exports.create = create;
 
 const get = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    // console.log('in user');
     let user = req.user;
     user.password = "";
     return ReS(res, {
@@ -48,7 +47,6 @@ module.exports.get = get;
 
 const getAll = async function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    // console.log('in user');
     let user = req.user;
     var err, users;
 
@@ -75,7 +73,6 @@ const update = async function (req, res) {
         err = 'The email address or phone number is already in use';
         return ReE(res, err);
     } else {
-        console.log(data.role);
         [err, user] = await to(User.update({
             "role": data.role,
             "email": data.email,
